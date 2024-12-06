@@ -12,6 +12,7 @@ import csv
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
+nltk.download('punkt_tab')  
 
 # Load the trained model and vectorizer
 with open('vectorizer.pkl', 'rb') as f:
@@ -22,13 +23,6 @@ with open('model.pkl', 'rb') as f:
 # Preprocessing function
 def preprocess_text(text):
     # Tokenization
-    try:
-        nltk.data.find('tokenizers/punkt')
-        nltk.data.find('tokenizers/punkt_tab') 
-    except LookupError:
-        nltk.download('punkt')
-        nltk.download('punkt_tab')  
-
     tokens = nltk.word_tokenize(text)
     # Removing Stop Words
     stop_words = set(stopwords.words('english'))
@@ -47,31 +41,22 @@ def preprocess_text(text):
 
     return lemmatized_tokens
 
-# Classification function
-def classify_text(text):
-    probability = model.predict_proba([text])[0][1]  # Probability of spam
-    threshold = 0.7
-    return "spam" if probability > threshold else "ham"
-
 # Streamlit app
 st.title("Spam Classifier")
 st.write("This is a application to classify emails as spam or ham.")
 
 # Input fields
 message = st.text_area("Enter a message to classify:")
+classify_button = st.button("Classify")
 
 # Classification logic
-if st.button("Classify"):
+if classify_button:
     if not message.strip():
         st.error("Please enter a valid message before classifying.")
     else:
-        st.session_state.message = message  # Store message in session_state
-        
-        # Show a spinner while processing
-        with st.spinner('Classifying...'):
-            processed_message = preprocess_text(message)
-            vectorized_message = vectorizer.transform([processed_message])
-            prediction = model.predict(vectorized_message)[0]
+        processed_message = preprocess_text(message)
+        vectorized_message = vectorizer.transform([processed_message])
+        prediction = model.predict(vectorized_message)[0]
         if prediction == 1:
             st.success("The message is classified as ham.")
         else:
@@ -80,19 +65,19 @@ if st.button("Classify"):
         # Feedback section
         st.markdown("---")
         st.subheader("Feedback")
+        col1, col2 = st.columns(2)
         st.write("Your feedback helps us improve our model!")
         feedback='feedback.csv'
-
-        feedback_option = st.radio("Was this classification correct?", ('Correct', 'Incorrect'))
+        with col1:
+            if st.button("Correct"):
+                with open('feedback.csv', 'a', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([message, prediction, 1])  # 1 for correct
+                st.success("Thank you for your feedback!")
         
-        if feedback_option == 'Correct':
-            with open(feedback, 'a', newline='') as f:
-                writer = csv.writer(f)
-                writer.writerow([message, prediction, 1])  # 1 for correct
-            st.success("Thank you for your feedback!")
-        
-        elif feedback_option == 'Incorrect':
-            with open(feedback, 'a', newline='') as f:
-                writer = csv.writer(f)
-                writer.writerow([message, prediction, 0])  # 0 for incorrect
-            st.info("Thank you for your feedback! We'll use it to improve.")
+        with col2:
+            if st.button("Incorrect"):
+                with open('feedback.csv', 'a', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([message, prediction, 0])  # 0 for incorrect
+                st.info("Thank you for your feedback! We'll use it to improve.")
