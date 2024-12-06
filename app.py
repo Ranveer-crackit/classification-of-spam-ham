@@ -60,7 +60,7 @@ if not os.path.exists(feedback_file):
 
 # Function to push updates to GitHub with your specific URL
 def push_to_github():
-    
+    os.chdir("D:\project\SpamClassifier")
     # Set your specific GitHub repository URL
     repo_url = "https://github.com/Ranveer-crackit/classification-of-spam-ham.git"
     
