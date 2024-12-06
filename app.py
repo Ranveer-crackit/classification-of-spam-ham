@@ -52,30 +52,6 @@ def classify_text(text):
 # Feedback file path
 feedback_file = 'feedback.csv'
 
-# Ensure the feedback file exists and has headers
-if not os.path.exists(feedback_file):
-    with open(feedback_file, 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(["Message", "Prediction", "Feedback"])  # Add headers
-
-# Function to push updates to GitHub with your specific URL
-def push_to_github():
-    os.chdir("D:\project\SpamClassifier")
-    # Set your specific GitHub repository URL
-    repo_url = "https://github.com/Ranveer-crackit/classification-of-spam-ham.git"
-    
-    try:
-        # Set the remote URL
-        run(['git', 'remote', 'set-url', 'origin', repo_url])
-        
-        # Add, commit and push changes to GitHub
-        run(['git', 'add', 'feedback.csv'])
-        run(['git', 'commit', '-m', 'Update feedback.csv with new feedback data'])
-        run(['git', 'push', 'origin', 'main'])
-        print("Successfully pushed changes to GitHub!")
-    except Exception as e:
-        print(f"Error pushing changes: {e}")
-
 # Streamlit app
 st.title("Spam Classifier")
 st.write("This is an application to classify emails as spam or ham.")
@@ -112,7 +88,6 @@ if classify_button:
                     writer = csv.writer(f)
                     writer.writerow([message, classification, 1])  # 1 for correct
                 st.success("Thank you for your feedback!")
-                push_to_github()  # Push feedback to GitHub
 
         with col2:
             if st.button("Incorrect"):
@@ -120,4 +95,4 @@ if classify_button:
                     writer = csv.writer(f)
                     writer.writerow([message, classification, 0])  # 0 for incorrect
                 st.info("Thank you for your feedback! We'll use it to improve.")
-                push_to_github()  # Push feedback to GitHub
+               
