@@ -14,11 +14,11 @@ The Spam Classifier processes user-input messages, applies a trained Naive Bayes
 ---
 
 ## Repository Structure
--├── app.py                  #Main application code
--├── model.pkl               #Trained Naive Bayes model
--├── vectorizer.pkl          #CountVectorizer object
--├── spam.csv                #Original dataset (example file)
--├── feedback.csv            #Feedback log for user inputs
--├── README.md               #Project documentation
+- ├── app.py                  #Main application code
+- ├── model.pkl               #Trained Naive Bayes model
+- ├── vectorizer.pkl          #CountVectorizer object
+- ├── spam.csv                #Original dataset (example file)
+- ├── feedback.csv            #Feedback log for user inputs
+- ├── README.md               #Project documentation
 
 
