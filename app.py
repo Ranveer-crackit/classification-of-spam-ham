@@ -59,7 +59,6 @@ st.write("This is a application to classify emails as spam or ham.")
 
 # Input fields
 message = st.text_area("Enter a message to classify:")
-classify_button = st.button("Classify")
 
 # Classification logic
 if st.button("Classify"):
