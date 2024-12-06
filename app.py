@@ -18,7 +18,7 @@ nltk.download('wordnet')
 # Load the trained model and vectorizer
 with open('vectorizer.pkl', 'rb') as f:
     vectorizer = dill.load(f)
-with open('/model.pkl', 'rb') as f:
+with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # Preprocessing function
