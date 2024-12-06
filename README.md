@@ -22,4 +22,7 @@ The Spam Classifier processes user-input messages, applies a trained Naive Bayes
 - ├── feedback.csv            #Feedback log for user inputs
 - ├── README.md               #Project documentation
 
+---
+## Deployed on Streamlit
+- https://classification-of-spam-ham-uzwrut9xjmcm54xehybab4.streamlit.app/
 
