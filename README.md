@@ -1,5 +1,3 @@
-# classification-of-spam-ham
-
 # Spam Classifier Application
 
 This project is a Machine Learning-based Spam Classifier built using Python. It classifies email messages into **Spam** or **Ham** based on their content. The application is developed with the help of Streamlit for a user-friendly interface and trained using the Naive Bayes classifier on preprocessed text data.
