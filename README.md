@@ -2,21 +2,23 @@
 
 This project is a Machine Learning-based Spam Classifier built using Python. It classifies email messages into **Spam** or **Ham** based on their content. The application is developed with the help of Streamlit for a user-friendly interface and trained using the Naive Bayes classifier on preprocessed text data.
 
-## Features
 
-1. **Text Preprocessing**:
-   - Tokenization
-   - Stopword Removal
-   - Normalization (lowercasing)
-   - Stemming and Lemmatization
+## Overview
 
-2. **Machine Learning**:
-   - Bag-of-Words (BoW) representation using `CountVectorizer`.
-   - Naive Bayes classifier (`MultinomialNB`).
+The Spam Classifier processes user-input messages, applies a trained Naive Bayes model, and classifies the messages as spam or ham. Key features include:
+- **Text Preprocessing**: Tokenization, stopword removal, stemming, and lemmatization.
+- **Machine Learning Model**: A Naive Bayes classifier trained on Bag-of-Words (BoW) features.
+- **Interactive Interface**: A Streamlit-based UI for easy interaction.
+- **Feedback System**: Records user feedback on classification results for future enhancements.
 
-3. **Interactive Interface**:
-   - Classify user-entered messages as Spam or Ham.
-   - Feedback system to improve the model.
+---
 
-4. **Feedback Recording**:
-   - Correct/Incorrect classifications are stored in a `feedback.csv` file for further analysis.
+## Repository Structure
+├── app.py                  #Main application code
+├── model.pkl               #Trained Naive Bayes model
+├── vectorizer.pkl          #CountVectorizer object
+├── spam.csv                #Original dataset (example file)
+├── feedback.csv            #Feedback log for user inputs
+├── README.md               #Project documentation
+
+
