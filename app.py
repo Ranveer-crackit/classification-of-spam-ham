@@ -62,13 +62,17 @@ message = st.text_area("Enter a message to classify:")
 classify_button = st.button("Classify")
 
 # Classification logic
-if classify_button:
+if st.button("Classify"):
     if not message.strip():
         st.error("Please enter a valid message before classifying.")
     else:
-        processed_message = preprocess_text(message)
-        vectorized_message = vectorizer.transform([processed_message])
-        prediction = model.predict(vectorized_message)[0]
+        st.session_state.message = message  # Store message in session_state
+        
+        # Show a spinner while processing
+        with st.spinner('Classifying...'):
+            processed_message = preprocess_text(message)
+            vectorized_message = vectorizer.transform([processed_message])
+            prediction = model.predict(vectorized_message)[0]
         if prediction == 1:
             st.success("The message is classified as ham.")
         else:
@@ -77,19 +81,19 @@ if classify_button:
         # Feedback section
         st.markdown("---")
         st.subheader("Feedback")
-        col1, col2 = st.columns(2)
         st.write("Your feedback helps us improve our model!")
         feedback='feedback.csv'
-        with col1:
-            if st.button("Correct"):
-                with open('feedback.csv', 'a', newline='') as f:
-                    writer = csv.writer(f)
-                    writer.writerow([message, prediction, 1])  # 1 for correct
-                st.success("Thank you for your feedback!")
+
+        feedback_option = st.radio("Was this classification correct?", ('Correct', 'Incorrect'))
         
-        with col2:
-            if st.button("Incorrect"):
-                with open('feedback.csv', 'a', newline='') as f:
-                    writer = csv.writer(f)
-                    writer.writerow([message, prediction, 0])  # 0 for incorrect
-                st.info("Thank you for your feedback! We'll use it to improve.")
+        if feedback_option == 'Correct':
+            with open(feedback, 'a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([message, prediction, 1])  # 1 for correct
+            st.success("Thank you for your feedback!")
+        
+        elif feedback_option == 'Incorrect':
+            with open(feedback, 'a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([message, prediction, 0])  # 0 for incorrect
+            st.info("Thank you for your feedback! We'll use it to improve.")
